@@ -9,7 +9,7 @@ sudo apt-get install git curl build-essential libssl-dev redis-server
 
 #monacoindのダウンロード
 cd ~
-if [`uname -m` = "x86_64"]; then
+if [ `uname -m` = "x86_64" ]; then
 	wget -o monacoin.tar.gz http://monacoin.org/files/client/0.10.2.2-hotfix/monacoin-0.10.2.2-hotfix-linux64.tar.gz
 else
 	wget -o monacoin.tar.gz http://monacoin.org/files/client/0.10.2.2-hotfix/monacoin-0.10.2.2-hotfix-linux32.tar.gz
