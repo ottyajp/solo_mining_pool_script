@@ -1,0 +1,73 @@
+--- litecoin_example.json	2015-12-06 20:07:03.600670121 +0900
++++ monacoin.json	2015-12-06 20:09:41.863563141 +0900
+@@ -1,23 +1,21 @@
+ {
+-    "enabled": false,
+-    "coin": "litecoin.json",
++    "enabled": true,
++    "coin": "monacoin.json",
+ 
+-    "address": "n4jSe18kZMCdGcZqaYprShXW6EH1wivUK1",
++    "address": "where_block_rewards_given",
+ 
+     "rewardRecipients": {
+-        "n37vuNFkXfk15uFnGoVyHZ6PYQxppD3QqK": 1.5,
+-        "22851477d63a085dbc2398c8430af1c09e7343f6": 0.1
+     },
+ 
+     "paymentProcessing": {
+         "enabled": true,
+         "paymentInterval": 20,
+-        "minimumPayment": 70,
++        "minimumPayment": minimum_payment,
+         "daemon": {
+             "host": "127.0.0.1",
+-            "port": 19332,
+-            "user": "testuser",
+-            "password": "testpass"
++            "port": daemon_port,
++            "user": "daemon_user",
++            "password": "daemon_pass"
+         }
+     },
+ 
+@@ -26,10 +24,10 @@
+             "diff": 8
+         },
+         "3032": {
+-            "diff": 32,
++            "diff": ini_diff,
+             "varDiff": {
+-                "minDiff": 8,
+-                "maxDiff": 512,
++                "minDiff": min_diff,
++                "maxDiff": max_diff,
+                 "targetTime": 15,
+                 "retargetTime": 90,
+                 "variancePercent": 30
+@@ -43,14 +41,14 @@
+     "daemons": [
+         {
+             "host": "127.0.0.1",
+-            "port": 19332,
+-            "user": "testuser",
+-            "password": "testpass"
++            "port": daemon_port,
++            "user": "daemon_user",
++            "password": "daemon_pass"
+         }
+     ],
+ 
+     "p2p": {
+-        "enabled": true,
++        "enabled": false,
+         "host": "127.0.0.1",
+         "port": 19333,
+         "disableTransactions": true
+@@ -67,4 +65,4 @@
+         "autoCreateWorker": false
+     }
+ 
+-}
+\ No newline at end of file
++}

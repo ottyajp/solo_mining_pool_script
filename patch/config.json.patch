@@ -1,0 +1,13 @@
+--- config_example.json	2015-12-06 19:59:37.104960897 +0900
++++ config.json	2015-12-06 20:01:52.274730755 +0900
+@@ -32,8 +32,8 @@
+     "website": {
+         "enabled": true,
+         "host": "0.0.0.0",
+-        "port": 80,
+-        "stratumHost": "cryppit.com",
++        "port": 8080,
++        "stratumHost": "test",
+         "stats": {
+             "updateInterval": 60,
+             "historicalRetention": 43200,
