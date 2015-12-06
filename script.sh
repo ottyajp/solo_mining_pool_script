@@ -51,7 +51,7 @@ redis-server &
 #NOMPのダウンロード、インストール
 git clone https://github.com/zone117x/node-open-mining-portal nomp
 cd nomp
-sed -i -e s/zone117x\/node-stratum-pool\.git/visvirial\/node-stratum-pool\.git/g ./package.json
+sed -i -e s#zone117x/node-stratum-pool#visvirial/node-stratum-pool#g ./package.json
 npm update
 
 #NOMPのコンフィグ
