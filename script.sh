@@ -92,4 +92,6 @@ patch -u ./pool_configs/monacoin.json < $S_DIR/patch/monacoin.json.patch
 
 #自動起動のセッティング
 echo "~/nomp_start.sh start" >> ~/.bashrc
-cp $S_DIR/nomp_start.sh ./
+cp $S_DIR/nomp_start.sh ~/
+
+exit 0
