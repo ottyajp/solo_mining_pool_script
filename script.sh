@@ -43,8 +43,8 @@ nvm install v0.10.40
 echo ". ~/.nvm/nvm.sh" >> .bashrc
 echo "nvm use v0.10.40" >> .bashrc
 
-#Redisのインストール
-#必要パッケージのインストールで一緒にやった
+#Redisのインストール、というか起動
+redis-server &
  
 #NOMPのダウンロード、インストール
 git clone https://github.com/zone117x/node-open-mining-portal nomp
@@ -62,4 +62,6 @@ sed -i -e s/\"stratumHost\":\s\"cryppit\.com\"/\"stratumHost\":\s\"$stratumhost\
 sed -i -e s/scrypt/lyra2re2/ ./coins/monacoin.json
 
 cp ./pool_configs/litecoin_example.json monacoin.json
+
 #自動起動のセッティング
+echo "~/start_nomp start" >> ~/.bashrc
