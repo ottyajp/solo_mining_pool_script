@@ -22,9 +22,9 @@ echo -n "rpcuser:"
 read rpcuser
 echo -n "rpcpassword:"
 read rpcpassword
-echo -n "rpcallowip:"
+echo -n "rpcallowip(usually 127.0.0.1):"
 read rpcallowip
-echo -n "rpcport:"
+echo -n "rpcport(usually 19332):"
 read rpcport
 echo server=1 >> .monacoin/monacoin.conf
 echo daemon=1 >> .monacoin/monacoin.conf
@@ -45,7 +45,7 @@ echo "nvm use v0.10.40" >> .bashrc
 
 #Redisのインストール、というか起動
 redis-server &
- 
+
 #NOMPのダウンロード、インストール
 git clone https://github.com/zone117x/node-open-mining-portal nomp
 cd nomp
@@ -53,15 +53,40 @@ sed -i -e s/zone117x\/node-stratum-pool\.git/visvirial\/node-stratum-pool\.git/g
 npm update
 
 #NOMPのコンフィグ
+cp ./config_example.json ./config.json
+echo -n "web port(usually 8080):"
+read web_port
 echo -n "stratumHost:"
 read stratumhost
-cp ./config_example.json config.json
-sed -i -e s/\"port\":\s80/\"port\":\s8080/g ./config.json
-sed -i -e s/\"stratumHost\":\s\"cryppit\.com\"/\"stratumHost\":\s\"$stratumhost\"/g ./config.json
+sed -i -e s/8080/$web_port/g ./patch/config.json.patch
+sed -i -e s/test/$stratumhost/g ./patch/config.json.patch
+patch -u ./config.json < ./patch/config.json.patch
+
 
 sed -i -e s/scrypt/lyra2re2/ ./coins/monacoin.json
 
+
 cp ./pool_configs/litecoin_example.json monacoin.json
+wbrga=`monacoin-cli getaccountaddress ""`
+echo -n "minimumPayment:"
+read minimum_payment
+echo -n "initial_Diff:"
+read ini_diff
+echo -n "minimum_Diff:"
+read min_diff
+echo -n "maximum_Diff:"
+read max_diff
+
+sed -i -e s/where_block_rewards_given/$wbrga/g ./patch/monacoin.json.patch
+sed -i -e s/minimum_payment/$minimum_payment/g ./patch/monacoin.json.patch
+sed -i -e s/daemon_port/$rpcport/g ./patch/monacoin.json.patch
+sed -i -e s/daemon_user/$rpcuser/g ./patch/monacoin.json.patch
+sed -i -e s/daemon_pass/$rpcpassword/g ./patch/monacoin.json.patch
+sed -i -e s/ini_diff/$ini_diff/g ./patch/monacoin.json.patch
+sed -i -e s/min_diff/$min_diff/g ./patch/monacoin.json.patch
+sed -i -e s/max_diff/$max_diff/g ./patch/monacoin.json.patch
+patch -u ./pool_configs/monacoin.json < ./patch/monacoin.json.patch
+
 
 #自動起動のセッティング
 echo "~/start_nomp start" >> ~/.bashrc
