@@ -1,4 +1,6 @@
 #!/bin/bash
+cd `dirname $0`
+S_DIR=`pwd`
 
 #必要パッケージのインストール
 sudo add-apt-repository ppa:chris-lea/redis-server
@@ -9,7 +11,7 @@ sudo apt-get install git curl build-essential libssl-dev redis-server
 cd ~
 if [`uname -m` = "x86_64"]; then
 	wget -o monacoin.tar.gz http://monacoin.org/files/client/0.10.2.2-hotfix/monacoin-0.10.2.2-hotfix-linux64.tar.gz
-then
+else
 	wget -o monacoin.tar.gz http://monacoin.org/files/client/0.10.2.2-hotfix/monacoin-0.10.2.2-hotfix-linux32.tar.gz
 fi
 
@@ -58,9 +60,9 @@ echo -n "web port(usually 8080):"
 read web_port
 echo -n "stratumHost:"
 read stratumhost
-sed -i -e s/8080/$web_port/g ./patch/config.json.patch
-sed -i -e s/test/$stratumhost/g ./patch/config.json.patch
-patch -u ./config.json < ./patch/config.json.patch
+sed -i -e s/8080/$web_port/g $S_DIR/patch/config.json.patch
+sed -i -e s/test/$stratumhost/g $S_DIR/patch/config.json.patch
+patch -u ./config.json < $S_DIR/patch/config.json.patch
 
 
 sed -i -e s/scrypt/lyra2re2/ ./coins/monacoin.json
@@ -77,16 +79,17 @@ read min_diff
 echo -n "maximum_Diff:"
 read max_diff
 
-sed -i -e s/where_block_rewards_given/$wbrga/g ./patch/monacoin.json.patch
-sed -i -e s/minimum_payment/$minimum_payment/g ./patch/monacoin.json.patch
-sed -i -e s/daemon_port/$rpcport/g ./patch/monacoin.json.patch
-sed -i -e s/daemon_user/$rpcuser/g ./patch/monacoin.json.patch
-sed -i -e s/daemon_pass/$rpcpassword/g ./patch/monacoin.json.patch
-sed -i -e s/ini_diff/$ini_diff/g ./patch/monacoin.json.patch
-sed -i -e s/min_diff/$min_diff/g ./patch/monacoin.json.patch
-sed -i -e s/max_diff/$max_diff/g ./patch/monacoin.json.patch
-patch -u ./pool_configs/monacoin.json < ./patch/monacoin.json.patch
+sed -i -e s/where_block_rewards_given/$wbrga/g $S_DIR/patch/monacoin.json.patch
+sed -i -e s/minimum_payment/$minimum_payment/g $S_DIR/patch/monacoin.json.patch
+sed -i -e s/daemon_port/$rpcport/g $S_DIR/patch/monacoin.json.patch
+sed -i -e s/daemon_user/$rpcuser/g $S_DIR/patch/monacoin.json.patch
+sed -i -e s/daemon_pass/$rpcpassword/g $S_DIR/patch/monacoin.json.patch
+sed -i -e s/ini_diff/$ini_diff/g $S_DIR/patch/monacoin.json.patch
+sed -i -e s/min_diff/$min_diff/g $S_DIR/patch/monacoin.json.patch
+sed -i -e s/max_diff/$max_diff/g $S_DIR/patch/monacoin.json.patch
+patch -u ./pool_configs/monacoin.json < $S_DIR/patch/monacoin.json.patch
 
 
 #自動起動のセッティング
-echo "~/start_nomp start" >> ~/.bashrc
+echo "~/nomp_start.sh start" >> ~/.bashrc
+cp $S_DIR/nomp_start.sh ./
