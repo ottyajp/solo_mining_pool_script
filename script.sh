@@ -68,7 +68,7 @@ patch -u ./config.json < $S_DIR/patch/config.json.patch
 sed -i -e s/scrypt/lyra2re2/ ./coins/monacoin.json
 
 
-cp ./pool_configs/litecoin_example.json monacoin.json
+cp ./pool_configs/litecoin_example.json ./pool_configs/monacoin.json
 wbrga=`monacoin-cli getaccountaddress ""`
 echo -n "minimumPayment:"
 read minimum_payment
