@@ -44,9 +44,9 @@ rm -f monacoin.tar.gz
 rm -rf monacoin-0.10.2.2
 
 if [ `uname -m` = "x86_64" ]; then
-	wget -O monacoin.tar.gz http://monacoin.org/files/client/0.10.2.2-hotfix/monacoin-0.10.2.2-hotfix-linux64.tar.gz
+  wget -O monacoin.tar.gz http://monacoin.org/files/client/0.10.2.2-hotfix/monacoin-0.10.2.2-hotfix-linux64.tar.gz
 else
-	wget -O monacoin.tar.gz http://monacoin.org/files/client/0.10.2.2-hotfix/monacoin-0.10.2.2-hotfix-linux32.tar.gz
+  wget -O monacoin.tar.gz http://monacoin.org/files/client/0.10.2.2-hotfix/monacoin-0.10.2.2-hotfix-linux32.tar.gz
 fi
 
 tar -zxvf monacoin-0.10.2.2.tar.gz
