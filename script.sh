@@ -66,6 +66,7 @@ monacoind
 
 #node.jsのインストール
 if [ -e ~/.nvm ]; then
+  echo
 else
   git clone https://github.com/creationix/nvm.git .nvm
 fi
@@ -74,6 +75,7 @@ nvm install v0.10.40
 
 cat .bashrc | grep nvm
 if [ $? -eq 0 ]; then
+  echo
 else
   echo ". ~/.nvm/nvm.sh" >> .bashrc
   echo "nvm use v0.10.40" >> .bashrc
@@ -116,6 +118,7 @@ patch -u ./pool_configs/monacoin.json < $S_DIR/patch/monacoin.json.patch
 #自動起動のセッティング
 cat .bashrc | grep nomp_start.sh
 if [ $? -eq 0 ]; then
+  echo
 else
   echo "~/nomp_start.sh start" >> ~/.bashrc
 fi
