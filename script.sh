@@ -2,6 +2,33 @@
 cd `dirname $0`
 S_DIR=`pwd`
 
+#必要情報の収集
+echo "info for monacoind"
+echo -n "rpcuser:"
+read rpcuser
+echo -n "rpcpassword:"
+read rpcpassword
+echo -n "rpcallowip(usually 127.0.0.1):"
+read rpcallowip
+echo -n "rpcport(usually 19332):"
+read rpcport
+
+echo "info for NOMP web"
+echo -n "web port(usually 8080):"
+read web_port
+echo -n "stratumHost:"
+read stratumhost
+
+echo "info for pool config"
+echo -n "minimumPayment:"
+read minimum_payment
+echo -n "initial_Diff:"
+read ini_diff
+echo -n "minimum_Diff:"
+read min_diff
+echo -n "maximum_Diff:"
+read max_diff
+
 #必要パッケージのインストール
 sudo add-apt-repository ppa:chris-lea/redis-server
 sudo apt-get update
@@ -20,14 +47,6 @@ sudo cp ./monacoin-0.10.2.2/bin/* /usr/local/bin/
 
 #monacoindのセットアップ
 monacoind
-echo -n "rpcuser:"
-read rpcuser
-echo -n "rpcpassword:"
-read rpcpassword
-echo -n "rpcallowip(usually 127.0.0.1):"
-read rpcallowip
-echo -n "rpcport(usually 19332):"
-read rpcport
 echo server=1 >> .monacoin/monacoin.conf
 echo daemon=1 >> .monacoin/monacoin.conf
 echo rpcuser=$rpcuser >> .monacoin/monacoin.conf
@@ -56,10 +75,6 @@ npm update
 
 #NOMPのコンフィグ
 cp ./config_example.json ./config.json
-echo -n "web port(usually 8080):"
-read web_port
-echo -n "stratumHost:"
-read stratumhost
 sed -i -e s/8080/$web_port/g $S_DIR/patch/config.json.patch
 sed -i -e s/test/$stratumhost/g $S_DIR/patch/config.json.patch
 patch -u ./config.json < $S_DIR/patch/config.json.patch
@@ -70,14 +85,6 @@ sed -i -e s/scrypt/lyra2re2/ ./coins/monacoin.json
 
 cp ./pool_configs/litecoin_example.json ./pool_configs/monacoin.json
 wbrga=`monacoin-cli getaccountaddress ""`
-echo -n "minimumPayment:"
-read minimum_payment
-echo -n "initial_Diff:"
-read ini_diff
-echo -n "minimum_Diff:"
-read min_diff
-echo -n "maximum_Diff:"
-read max_diff
 
 sed -i -e s/where_block_rewards_given/$wbrga/g $S_DIR/patch/monacoin.json.patch
 sed -i -e s/minimum_payment/$minimum_payment/g $S_DIR/patch/monacoin.json.patch
