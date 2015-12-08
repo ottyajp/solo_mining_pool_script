@@ -49,7 +49,7 @@ else
 	wget -O monacoin.tar.gz http://monacoin.org/files/client/0.10.2.2-hotfix/monacoin-0.10.2.2-hotfix-linux32.tar.gz
 fi
 
-tar -zxvf monacoin-0.10.2.2*.tar.gz
+tar -zxvf monacoin-0.10.2.2.tar.gz
 sudo cp ./monacoin-0.10.2.2/bin/* /usr/local/bin/
 
 #monacoindのセットアップ
