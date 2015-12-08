@@ -30,12 +30,19 @@ echo -n "maximum_Diff:"
 read max_diff
 
 #必要パッケージのインストール
-sudo add-apt-repository ppa:chris-lea/redis-server
+if [ -e /etc/apt/sources.list.d/chris-lea-redis-server-trusty.list ]; then
+  echo "already ppa:chris-lea/redis-server is added."
+else
+  sudo add-apt-repository ppa:chris-lea/redis-server
+fi
 sudo apt-get update
 sudo apt-get install git curl build-essential libssl-dev redis-server
 
 #monacoindのダウンロード
 cd ~
+rm -f monacoin.tar.gz
+rm -rf monacoin-0.10.2.2
+
 if [ `uname -m` = "x86_64" ]; then
 	wget -o monacoin.tar.gz http://monacoin.org/files/client/0.10.2.2-hotfix/monacoin-0.10.2.2-hotfix-linux64.tar.gz
 else
@@ -46,6 +53,7 @@ tar -zxvf monacoin-0.10.2.2*.tar.gz
 sudo cp ./monacoin-0.10.2.2/bin/* /usr/local/bin/
 
 #monacoindのセットアップ
+rm -f .monacoin/monacoin.conf
 monacoind
 echo server=1 >> .monacoin/monacoin.conf
 echo daemon=1 >> .monacoin/monacoin.conf
@@ -57,17 +65,25 @@ echo rpcport=$rpcport >> .monacoin/monacoin.conf
 monacoind
 
 #node.jsのインストール
-git clone https://github.com/creationix/nvm.git .nvm
+if [ -e ~/.nvm ]; then
+else
+  git clone https://github.com/creationix/nvm.git .nvm
+fi
 . ~/.nvm/nvm.sh
 nvm install v0.10.40
 
-echo ". ~/.nvm/nvm.sh" >> .bashrc
-echo "nvm use v0.10.40" >> .bashrc
+cat .bashrc | grep nvm
+if [ $? -eq 0 ]; then
+else
+  echo ". ~/.nvm/nvm.sh" >> .bashrc
+  echo "nvm use v0.10.40" >> .bashrc
+fi
 
 #Redisのインストール、というか起動
 redis-server &
 
 #NOMPのダウンロード、インストール
+rm -rf ./nomp
 git clone https://github.com/zone117x/node-open-mining-portal nomp
 cd nomp
 sed -i -e s#zone117x/node-stratum-pool#visvirial/node-stratum-pool#g ./package.json
@@ -98,7 +114,12 @@ patch -u ./pool_configs/monacoin.json < $S_DIR/patch/monacoin.json.patch
 
 
 #自動起動のセッティング
-echo "~/nomp_start.sh start" >> ~/.bashrc
+cat .bashrc | grep nomp_start.sh
+if [ $? -eq 0 ]; then
+else
+  echo "~/nomp_start.sh start" >> ~/.bashrc
+fi
+rm -f ~/nomp_start.sh
 cp $S_DIR/nomp_start.sh ~/
 
 exit 0
