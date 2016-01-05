@@ -1,0 +1,25 @@
+#!/bin/bash
+### BEGIN INIT INFO
+# Provides: nomp
+# Required-Start: $network
+# Required-Stop: 
+# Should-Start:
+# Default-Start: 2 3 4 5
+# Default-stop: 0 1 6
+# Short-Description:
+# Description:
+### END INIT INFO
+
+case "$1" in
+	start)
+		/home/tea/nomp_start.sh start
+		;;
+	stop)
+		/home/tea/nomp_start.sh stop
+		;;
+	*)
+		echo "Usage: nomp_start.sh {start|stop}"
+		exit 1
+esac
+
+exit 0

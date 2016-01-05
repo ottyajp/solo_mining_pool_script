@@ -36,7 +36,7 @@ else
   sudo add-apt-repository ppa:chris-lea/redis-server
 fi
 sudo apt-get update
-sudo apt-get install git curl build-essential libssl-dev redis-server
+sudo apt-get install git curl build-essential libssl-dev redis-server sysv-rc-conf
 
 #monacoindのダウンロード
 cd ~
@@ -73,14 +73,6 @@ fi
 . ~/.nvm/nvm.sh
 nvm install v0.10.40
 
-cat .bashrc | grep nvm
-if [ $? -eq 0 ]; then
-  echo
-else
-  echo ". ~/.nvm/nvm.sh" >> .bashrc
-  echo "nvm use v0.10.40" >> .bashrc
-fi
-
 #Redisのインストール、というか起動
 redis-server &
 
@@ -116,13 +108,10 @@ patch -u ./pool_configs/monacoin.json < $S_DIR/patch/monacoin.json.patch
 
 
 #自動起動のセッティング
-cat .bashrc | grep nomp_start.sh
-if [ $? -eq 0 ]; then
-  echo
-else
-  echo "~/nomp_start.sh start" >> ~/.bashrc
-fi
-rm -f ~/nomp_start.sh
 cp $S_DIR/nomp_start.sh ~/
+chmod +x ~/nomp_start.sh
+sudo cp $S_DIR/nomp /etc/init.d/
+sudo chmod +x /etc/init.d/nomp
+sudo sysv-rc-conf nomp on
 
 exit 0
