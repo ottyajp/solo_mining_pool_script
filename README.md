@@ -10,11 +10,15 @@
 2. script.shを実行する
 3. 各種情報入力
 4. 再起動
-5. ログインするとプール始動
 
 勿論monacoindがネットワークに同期が完了するまでは掘れないです。
 
-ログインしないとプール（monacoind, NOMP）は起動しないので、Ubuntuのインストールの時に自動ログインを有効にしておくといいかも知れません。
+Webでは見れるけどマイニングが出来ない（ `connection refused` されるとか）場合には以下みたいな感じで再起動してください。
+
+```bash
+sudo service nomp stop
+sudo service nomp start
+```
 
 ##各種情報について
 |||
